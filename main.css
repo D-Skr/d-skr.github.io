@@ -68,6 +68,44 @@ body {
    }
 
 
+.collapsible {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    text-align: left;
+    background: #373737;
+    font-size: 14px;
+    line-height: 18px;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 5px 10px 7px 39px;
+    font-weight: 700;
+    border-radius: 5px 5px 5px 5px;
+  }
+  
+  .collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: white;
+    float: right;
+    margin-left: 5px;
+  }
+
+  .active, .collapsible:hover {
+    background-color: #555;
+  }
+
+  .active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+  }
+  
+  .content {
+  
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+
   /* Style inputs with type="text", select elements and textareas */
 input[type=text], select, textarea {
     width: 100%; /* Full width */
@@ -183,12 +221,6 @@ input[type=submit]:hover {
 #mainpage_area .post_header .post_title a:hover {
     color: #646464;
 }
-/* 
-#welcome {
-    padding: 40px 50px 10px 50px;
-    display: grid; 
-    justify-content: center;
-} */
 
 .post_title a {
     text-decoration: none;
