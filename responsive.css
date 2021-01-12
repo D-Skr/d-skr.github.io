@@ -1,0 +1,104 @@
+@media (max-width: 950px) {
+	#page {
+		width: 750px;
+	}
+
+	#profile_data {
+		padding-right: 0;
+		width: 215px;
+	}
+
+	#profile_header {
+		padding: 0 20px;
+	}
+
+	#profile_user {
+		max-width: 370px;
+	}
+
+	h1#profile_title {
+		font-size: 25px;
+		line-height: 30px;
+	}
+
+	#full_size #profile_photo {
+		width: 95px;
+	}
+
+	.sidebar {
+		margin-left: 30px;
+		width: 125px;
+	}
+
+	.right_sidebar #p1rimary {
+		width: 431px;
+	}
+
+	#main {
+		width: 630px;
+	}
+}
+
+@media (max-width: 760px) {
+	#profile_header {
+		padding: 0 30px;
+	}
+
+	#page {
+		width: 460px;
+	}
+
+	.right_sidebar #pr1imary {
+		float: none;
+		width: 100%;
+		background: none !important;
+		margin: 0;
+	}
+
+	#profile_data {
+		float: none;
+		width: auto;
+		margin-bottom: 25px;
+		display: none;
+	}
+
+	#full_size #profile_data {
+		display: block;
+		clear: both;
+		padding-top: 20px;
+	}
+
+	.sidebar {
+		width: auto;
+		float: none;
+		margin: 0 0 30px;
+	}
+
+	#main {
+		width: 400px;
+	}
+}
+
+@media (max-width: 470px) {
+
+	#page {
+		width: 310px;
+	}
+
+	#main {
+		width: 310px;
+		margin-left: 0;
+	}
+	
+	#profile_photo {
+		display: none;
+	}
+
+    span.psw {
+      display: block;
+      float: none;
+    }
+    .cancelbtn {
+      width: 100%;
+    }
+  } 
