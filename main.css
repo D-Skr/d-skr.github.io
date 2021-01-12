@@ -20,7 +20,6 @@ td {
 
 body {
     background: #141414;
-    background-clip: digital_grid.mp4;
     font-family: 'Catamaran', sans-serif;
     font-size: 14px;
     line-height: 20px;
@@ -171,7 +170,7 @@ input[type=submit]:hover {
 }
 
 #main {
-    width: 820px;
+    width: 870px;
     margin-left: 30px;
     background: rgba(40, 40, 40, 0.8);
     text-align: justify;
@@ -269,7 +268,7 @@ input[type=submit]:hover {
 
 h1#profile_title {
     text-transform: uppercase;
-    font-size: 27px;
+    font-size: 30px;
     font-weight: 700;
     color: #ffffff;
 }
