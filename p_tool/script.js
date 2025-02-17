@@ -145,9 +145,29 @@ cropContainer.addEventListener("touchstart", (e) => {
     isPinching = true;
     initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
     initialScale = scale;
-    pinchMidpoint = getMidpoint(e.touches[0], e.touches[1]);
-    initialAngle = getAngle(e.touches[0], e.touches[1]);
     initialRotation = rotation;
+    initialPosX = posX;
+    initialPosY = posY;
+    pinchMidpoint = getMidpoint(e.touches[0], e.touches[1]);
+
+    // Get the fixed point in container coordinates
+    const rect = cropContainer.getBoundingClientRect();
+    const fixedPointX = pinchMidpoint.x - rect.left;
+    const fixedPointY = pinchMidpoint.y - rect.top;
+
+    // Convert fixed point into image coordinates based on the initial transformation,
+    // taking rotation into account.
+    const r = (initialRotation * Math.PI) / 180;
+    fixedImagePoint = {
+      x:
+        (Math.cos(r) * (fixedPointX - initialPosX) +
+          Math.sin(r) * (fixedPointY - initialPosY)) /
+        initialScale,
+      y:
+        (-Math.sin(r) * (fixedPointX - initialPosX) +
+          Math.cos(r) * (fixedPointY - initialPosY)) /
+        initialScale,
+    };
   }
 });
 
@@ -161,17 +181,29 @@ cropContainer.addEventListener("touchmove", (e) => {
 
     // Calculate rotation (in degrees)
     const currentAngle = getAngle(e.touches[0], e.touches[1]);
-    const angleDiff = currentAngle - initialAngle;
+    const angleDiff =
+      currentAngle -
+      Math.atan2(
+        Math.sin((initialRotation * Math.PI) / 180),
+        Math.cos((initialRotation * Math.PI) / 180)
+      ); // Alternatively, use: currentAngle - initialAngle (if initialAngle is recorded)
     rotation = initialRotation + angleDiff * (180 / Math.PI);
 
-    // Adjust position so that the pinch midpoint remains fixed
+    // Recalculate posX and posY to keep the fixed image point under the same pinch midpoint.
     const rect = cropContainer.getBoundingClientRect();
-    const offsetX = pinchMidpoint.x - rect.left;
-    const offsetY = pinchMidpoint.y - rect.top;
-    const x = (offsetX - posX) / initialScale;
-    const y = (offsetY - posY) / initialScale;
-    posX = offsetX - x * scale;
-    posY = offsetY - y * scale;
+    const fixedPointX = pinchMidpoint.x - rect.left;
+    const fixedPointY = pinchMidpoint.y - rect.top;
+    const newRotationRad = (rotation * Math.PI) / 180;
+    posX =
+      fixedPointX -
+      scale *
+        (Math.cos(newRotationRad) * fixedImagePoint.x -
+          Math.sin(newRotationRad) * fixedImagePoint.y);
+    posY =
+      fixedPointY -
+      scale *
+        (Math.sin(newRotationRad) * fixedImagePoint.x +
+          Math.cos(newRotationRad) * fixedImagePoint.y);
     updateTransform();
   } else if (!isPinching && e.touches.length === 1 && isDragging) {
     // Single finger dragging
