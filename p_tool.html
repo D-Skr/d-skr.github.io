@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop 📷 Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" media="all" href="./p_tool/styles.css">
+</head>
+
+<body>
+    <header>Crop <i class="fa-solid fa-camera"></i> Tool</header>
+    <div class="container">
+        <div class="button-wrapper" for="file-input">
+            <div class="label">
+                <i class="fas fa-image"></i>&nbsp; Choose Photo
+                <input type="file" id="file-input" accept="image/*">
+            </div>
+        </div>
+
+        <div id="crop-container">
+            <img id="photo" src="" alt="Your Photo" style="display: none;">
+            <div class="grid-overlay">
+                <div class="grid-line grid-line-vertical" style="left: 33.33%"></div>
+                <div class="grid-line grid-line-vertical" style="left: 66.66%"></div>
+                <div class="grid-line grid-line-horizontal" style="top: 33.33%"></div>
+                <div class="grid-line grid-line-horizontal" style="top: 66.66%"></div>
+            </div>
+        </div>
+        <div id="photo-sample-btn" class="button-wrapper" for="file-input">
+            <div class="label">
+                <i class="fa-solid fa-user"></i>&nbsp; Photo Sample
+            </div>
+        </div>
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <img src="./p_tool/photoSample.png" alt="Sample Photo">
+                <button id="close-modal-btn" class="close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button id="crop-btn" class="btn btn-secondary" disabled>
+            <i class="fas fa-crop-alt"></i> Crop
+        </button>
+        <button id="download-btn" class="btn btn-primary" disabled>
+            <i class="fas fa-download"></i> Save
+        </button>
+    </div>
+
+    <canvas id="result-canvas" width="600" height="600" style="display: none;"></canvas>
+
+    <script src="./p_tool/script.js"></script>
+</body>
+
+</html>
