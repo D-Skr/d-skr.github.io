@@ -11,15 +11,10 @@ const photoSampleBtn = document.getElementById("photo-sample-btn");
 const modal = document.getElementById("modal");
 const closeModalBtn = document.getElementById("close-modal-btn");
 
-// NEW: Rotate buttons (for desktop)
-const rotateLeftBtn = document.getElementById("rotate-left-btn");
-const rotateRightBtn = document.getElementById("rotate-right-btn");
-
-// Transformation variables for positioning, scaling, and rotation
+// Transformation variables for positioning and scaling
 let scale = 1;
 let posX = 0;
 let posY = 0;
-let rotation = 0; // in degrees
 
 // Variables for mouse dragging
 let isDragging = false;
@@ -31,11 +26,6 @@ let isPinching = false;
 let initialPinchDistance = 0;
 let initialScale = 1;
 let pinchMidpoint = { x: 0, y: 0 };
-let initialAngle = 0;
-let initialRotation = 0;
-let fixedImagePoint = { x: 0, y: 0 };
-let initialPosX = 0;
-let initialPosY = 0;
 
 let originalFileName = "";
 
@@ -54,14 +44,10 @@ fileInput.addEventListener("change", (e) => {
   scale = 1;
   posX = 0;
   posY = 0;
-  rotation = 0;
   updateTransform();
 
   // When the image loads, adjust scale and center it so that it covers the crop frame
   photo.onload = () => {
-    // Set transform-origin to top-left for consistent math (both display and crop)
-    photo.style.transformOrigin = "0 0";
-
     const containerWidth = cropContainer.clientWidth;
     const containerHeight = cropContainer.clientHeight;
     const imgWidth = photo.naturalWidth;
@@ -81,7 +67,7 @@ fileInput.addEventListener("change", (e) => {
 
 // Update the CSS transform of the image
 function updateTransform() {
-  photo.style.transform = `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${rotation}deg)`;
+  photo.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
 }
 
 // ---------------------------
@@ -144,81 +130,31 @@ cropContainer.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
   } else if (e.touches.length === 2) {
-    // Two fingers: start pinch-zoom & rotation
+    // Two fingers: start pinch-zoom
     isDragging = false; // Ensure dragging is disabled during pinch
     isPinching = true;
     initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
     initialScale = scale;
-    initialRotation = rotation;
-    initialPosX = posX;
-    initialPosY = posY;
-    // Calculate pinch midpoint
     pinchMidpoint = getMidpoint(e.touches[0], e.touches[1]);
-
-    // Get the fixed point in container coordinates
-    const rect = cropContainer.getBoundingClientRect();
-    const fixedPointX = pinchMidpoint.x - rect.left;
-    const fixedPointY = pinchMidpoint.y - rect.top;
-
-    // Convert fixed point into image coordinates based on the initial transformation,
-    // taking rotation into account.
-    const r = (initialRotation * Math.PI) / 180;
-    fixedImagePoint = {
-      x:
-        (Math.cos(r) * (fixedPointX - initialPosX) +
-          Math.sin(r) * (fixedPointY - initialPosY)) /
-        initialScale,
-      y:
-        (-Math.sin(r) * (fixedPointX - initialPosX) +
-          Math.cos(r) * (fixedPointY - initialPosY)) /
-        initialScale,
-    };
-    // Store initial angle for rotation calculation
-    initialAngle = getAngle(e.touches[0], e.touches[1]);
   }
 });
 
 cropContainer.addEventListener("touchmove", (e) => {
   e.preventDefault();
   if (isPinching && e.touches.length === 2) {
-    // Handle pinch-zoom and rotation
+    // Handle pinch-zoom
     const currentDistance = getDistance(e.touches[0], e.touches[1]);
     const zoomFactor = currentDistance / initialPinchDistance;
     scale = initialScale * zoomFactor;
 
-    // Limit minimum and maximum scale
-    scale = Math.max(0.1, Math.min(scale, 10));
-
-    // Calculate rotation change
-    const angleDiff = currentAngle - initialAngle;
-    rotation = initialRotation + angleDiff * (180 / Math.PI);
-
-    // Calculate rotation (in degrees)
-    //const currentAngle = getAngle(e.touches[0], e.touches[1]);
-    // const angleDiff =
-    //   currentAngle -
-    //   Math.atan2(
-    //     Math.sin((initialRotation * Math.PI) / 180),
-    //     Math.cos((initialRotation * Math.PI) / 180)
-    //   ); // Alternatively, use: currentAngle - initialAngle (if initialAngle is recorded)
-    //rotation = initialRotation + angleDiff * (180 / Math.PI);
-
-    // Recalculate posX and posY to keep the fixed image point under the same pinch midpoint.
-    const currentMidpoint = getMidpoint(e.touches[0], e.touches[1]);
+    // Adjust position so that the midpoint remains fixed
     const rect = cropContainer.getBoundingClientRect();
-    const fixedPointX = currentMidpoint.x - rect.left;
-    const fixedPointY = currentMidpoint.y - rect.top;
-    const newRotationRad = (rotation * Math.PI) / 180;
-    posX =
-      fixedPointX -
-      scale *
-        (Math.cos(newRotationRad) * fixedImagePoint.x -
-          Math.sin(newRotationRad) * fixedImagePoint.y);
-    posY =
-      fixedPointY -
-      scale *
-        (Math.sin(newRotationRad) * fixedImagePoint.x +
-          Math.cos(newRotationRad) * fixedImagePoint.y);
+    const offsetX = pinchMidpoint.x - rect.left;
+    const offsetY = pinchMidpoint.y - rect.top;
+    const x = (offsetX - posX) / initialScale;
+    const y = (offsetY - posY) / initialScale;
+    posX = offsetX - x * scale;
+    posY = offsetY - y * scale;
     updateTransform();
   } else if (!isPinching && e.touches.length === 1 && isDragging) {
     // Single finger dragging
@@ -237,11 +173,6 @@ cropContainer.addEventListener("touchend", (e) => {
   // If fewer than two touches remain, end pinch-zoom
   if (e.touches.length < 2) {
     isPinching = false;
-    // Preserve the current transformation values
-    initialScale = scale;
-    initialRotation = rotation;
-    initialPosX = posX;
-    initialPosY = posY;
   }
   if (e.touches.length === 0) {
     isDragging = false;
@@ -252,7 +183,7 @@ cropContainer.addEventListener("touchend", (e) => {
 function getDistance(touch1, touch2) {
   const dx = touch2.clientX - touch1.clientX;
   const dy = touch2.clientY - touch1.clientY;
-  return Math.sqrt(dx * dx + dy * dy);
+  return Math.hypot(dx, dy);
 }
 
 function getMidpoint(touch1, touch2) {
@@ -260,29 +191,6 @@ function getMidpoint(touch1, touch2) {
     x: (touch1.clientX + touch2.clientX) / 2,
     y: (touch1.clientY + touch2.clientY) / 2,
   };
-}
-
-function getAngle(touch1, touch2) {
-  return Math.atan2(
-    touch2.clientY - touch1.clientY,
-    touch2.clientX - touch1.clientX
-  );
-}
-
-// ---------------------------
-// Rotate Buttons (Desktop)
-// ---------------------------
-if (rotateLeftBtn) {
-  rotateLeftBtn.addEventListener("click", () => {
-    rotation -= 90;
-    updateTransform();
-  });
-}
-if (rotateRightBtn) {
-  rotateRightBtn.addEventListener("click", () => {
-    rotation += 90;
-    updateTransform();
-  });
 }
 
 // ---------------------------
@@ -294,30 +202,19 @@ cropBtn.addEventListener("click", () => {
   // Clear the canvas
   ctx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
 
-  // Get the crop container's displayed dimensions
+  // Note: The crop container’s displayed size (containerWidth x containerHeight)
+  // may be smaller than 600x600 on mobile, but we always want a final 600×600 image.
   const containerWidth = cropContainer.clientWidth;
   const containerHeight = cropContainer.clientHeight;
 
-  ctx.save();
-  // Scale the context so that the container's dimensions map to a 600×600 canvas
-  ctx.scale(600 / containerWidth, 600 / containerHeight);
+  // The top-left of the container corresponds to (-posX/scale, -posY/scale) in the image.
+  const sx = -posX / scale;
+  const sy = -posY / scale;
+  const sWidth = containerWidth / scale;
+  const sHeight = containerHeight / scale;
 
-  // --- Apply the same transformation as used in CSS ---
-  // Our transformation (with transform-origin set to top-left) is:
-  //   translate(posX, posY) then scale(scale) then rotate(rotation)
-  // The equivalent transformation matrix is computed as follows:
-  const rad = (rotation * Math.PI) / 180;
-  const a = scale * Math.cos(rad);
-  const b = scale * Math.sin(rad);
-  const c = -scale * Math.sin(rad);
-  const d = scale * Math.cos(rad);
-  const e = posX;
-  const f = posY;
-  ctx.transform(a, b, c, d, e, f);
-
-  // Draw the original image at (0, 0)
-  ctx.drawImage(photo, 0, 0);
-  ctx.restore();
+  // Draw the cropped portion from the image onto the canvas, scaling to 600×600.
+  ctx.drawImage(photo, sx, sy, sWidth, sHeight, 0, 0, 600, 600);
 
   // Enable the Download button
   downloadBtn.disabled = false;
