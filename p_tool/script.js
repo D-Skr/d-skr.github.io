@@ -35,6 +35,7 @@ fileInput.addEventListener("change", (e) => {
   originalFileName = file.name;
   const url = URL.createObjectURL(file);
   photo.src = url;
+  photo.style.display = "block";
   photo.classList.remove("loaded");
 
   // Reset transformation
