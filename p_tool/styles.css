@@ -103,7 +103,7 @@ header {
 
 #photo.loaded {
     opacity: 1;
-    /* pointer-events: auto; */
+    pointer-events: auto;
 }
 
 .button-group {
