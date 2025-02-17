@@ -33,6 +33,9 @@ let initialScale = 1;
 let pinchMidpoint = { x: 0, y: 0 };
 let initialAngle = 0;
 let initialRotation = 0;
+let fixedImagePoint = { x: 0, y: 0 };
+let initialPosX = 0;
+let initialPosY = 0;
 
 let originalFileName = "";
 
@@ -142,14 +145,15 @@ cropContainer.addEventListener("touchstart", (e) => {
     startY = e.touches[0].clientY;
   } else if (e.touches.length === 2) {
     // Two fingers: start pinch-zoom & rotation
+    isDragging = false; // Ensure dragging is disabled during pinch
     isPinching = true;
     initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
     initialScale = scale;
     initialRotation = rotation;
     initialPosX = posX;
     initialPosY = posY;
+    // Calculate pinch midpoint
     pinchMidpoint = getMidpoint(e.touches[0], e.touches[1]);
-    initialAngle = getAngle(e.touches[0], e.touches[1]);
 
     // Get the fixed point in container coordinates
     const rect = cropContainer.getBoundingClientRect();
@@ -169,6 +173,8 @@ cropContainer.addEventListener("touchstart", (e) => {
           Math.cos(r) * (fixedPointY - initialPosY)) /
         initialScale,
     };
+    // Store initial angle for rotation calculation
+    initialAngle = getAngle(e.touches[0], e.touches[1]);
   }
 });
 
@@ -180,16 +186,22 @@ cropContainer.addEventListener("touchmove", (e) => {
     const zoomFactor = currentDistance / initialPinchDistance;
     scale = initialScale * zoomFactor;
 
-    // Calculate rotation (in degrees)
-    const currentAngle = getAngle(e.touches[0], e.touches[1]);
+    // Limit minimum and maximum scale
+    scale = Math.max(0.1, Math.min(scale, 10));
+
+    // Calculate rotation change
     const angleDiff = currentAngle - initialAngle;
+    rotation = initialRotation + angleDiff * (180 / Math.PI);
+
+    // Calculate rotation (in degrees)
+    //const currentAngle = getAngle(e.touches[0], e.touches[1]);
     // const angleDiff =
     //   currentAngle -
     //   Math.atan2(
     //     Math.sin((initialRotation * Math.PI) / 180),
     //     Math.cos((initialRotation * Math.PI) / 180)
     //   ); // Alternatively, use: currentAngle - initialAngle (if initialAngle is recorded)
-    rotation = initialRotation + angleDiff * (180 / Math.PI);
+    //rotation = initialRotation + angleDiff * (180 / Math.PI);
 
     // Recalculate posX and posY to keep the fixed image point under the same pinch midpoint.
     const currentMidpoint = getMidpoint(e.touches[0], e.touches[1]);
@@ -225,6 +237,11 @@ cropContainer.addEventListener("touchend", (e) => {
   // If fewer than two touches remain, end pinch-zoom
   if (e.touches.length < 2) {
     isPinching = false;
+    // Preserve the current transformation values
+    initialScale = scale;
+    initialRotation = rotation;
+    initialPosX = posX;
+    initialPosY = posY;
   }
   if (e.touches.length === 0) {
     isDragging = false;
@@ -235,7 +252,7 @@ cropContainer.addEventListener("touchend", (e) => {
 function getDistance(touch1, touch2) {
   const dx = touch2.clientX - touch1.clientX;
   const dy = touch2.clientY - touch1.clientY;
-  return Math.hypot(dx, dy);
+  return Math.sqrt(dx * dx + dy * dy);
 }
 
 function getMidpoint(touch1, touch2) {
