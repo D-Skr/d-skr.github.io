@@ -30,8 +30,6 @@ let pinchMidpoint = { x: 0, y: 0 };
 let initialAngle = 0;
 let initialRotation = 0;
 let fixedImagePoint = { x: 0, y: 0 };
-// let initialPosX = 0;
-// let initialPosY = 0;
 
 let originalFileName = "";
 
@@ -145,7 +143,7 @@ cropContainer.addEventListener("touchstart", (e) => {
     isDragging = false; // Ensure dragging is disabled during pinch
     isPinching = true;
     initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
-    initialScale = scale;
+    //initialScale = scale;
     initialRotation = rotation;
     pinchMidpoint = getMidpoint(e.touches[0], e.touches[1]);
 
