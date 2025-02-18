@@ -159,11 +159,11 @@ cropContainer.addEventListener("touchstart", (e) => {
       x:
         (Math.cos(r) * (fixedPointX - posX) +
           Math.sin(r) * (fixedPointY - posY)) /
-        initialScale,
+        scale,
       y:
         (-Math.sin(r) * (fixedPointX - posX) +
           Math.cos(r) * (fixedPointY - posY)) /
-        initialScale,
+        scale,
     };
     // Store initial angle for rotation calculation
     initialAngle = getAngle(e.touches[0], e.touches[1]);
@@ -177,7 +177,7 @@ cropContainer.addEventListener("touchmove", (e) => {
     const newDistance = getDistance(e.touches[0], e.touches[1]);
     const newAngle = getAngle(e.touches[0], e.touches[1]);
 
-    scale = Math.max(0.5, Math.min(initialScale * zoomFactor, 5));
+    scale = Math.max(0.5, Math.min(scale * zoomFactor, 5));
 
     rotation = initialRotation + (newAngle - initialAngle) * (180 / Math.PI);
 
