@@ -2,7 +2,6 @@
 const fileInput = document.getElementById("file-input");
 const photo = document.getElementById("photo");
 const cropContainer = document.getElementById("crop-container");
-const cropBtn = document.getElementById("crop-btn");
 const downloadBtn = document.getElementById("download-btn");
 const resultCanvas = document.getElementById("result-canvas");
 const ctx = resultCanvas.getContext("2d");
@@ -69,7 +68,7 @@ fileInput.addEventListener("change", (e) => {
     posY = (containerHeight - imgHeight * scale) / 2;
     updateTransform();
     photo.classList.add("loaded");
-    cropBtn.disabled = false;
+    downloadBtn.disabled = false;
   };
 });
 
@@ -265,7 +264,7 @@ if (rotateRightBtn) {
 // ---------------------------
 // Cropping & Download
 // ---------------------------
-cropBtn.addEventListener("click", () => {
+downloadBtn.addEventListener("click", () => {
   if (!photo.src) return;
 
   // Clear the canvas
@@ -296,12 +295,7 @@ cropBtn.addEventListener("click", () => {
   ctx.drawImage(photo, 0, 0);
   ctx.restore();
 
-  // Enable the Download button
-  downloadBtn.disabled = false;
-  alert("Image cropped! Click 'Download' to save your cropped image.");
-});
-
-downloadBtn.addEventListener("click", () => {
+  // Automatically trigger the download after cropping
   const link = document.createElement("a");
   link.download = "cropped_" + originalFileName;
   link.href = resultCanvas.toDataURL();
@@ -322,5 +316,20 @@ closeModalBtn.addEventListener("click", () => {
 modal.addEventListener("click", (e) => {
   if (e.target === modal) {
     modal.classList.remove("active");
+  }
+});
+
+
+
+// ---------------------------
+// Toggle Dropdown
+// ---------------------------
+document.getElementById("dropdown-header").addEventListener("click", function () {
+  const desc = document.getElementById("description");
+  this.classList.toggle("active"); // Toggle arrow direction
+  if (desc.style.display === "none" || desc.style.display === "") {
+      desc.style.display = "block";
+  } else {
+      desc.style.display = "none";
   }
 });
