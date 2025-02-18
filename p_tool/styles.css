@@ -21,6 +21,8 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    /* Prevents page scrolling */
 }
 
 header {
@@ -35,6 +37,32 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
+    cursor: pointer;
+    /* Make it clickable */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dropdown-icon {
+    animation: slideDown 0.3s;
+}
+
+#description {
+    display: none;
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    text-align: center;
+    padding: 10px 20px;
+    margin: 0 auto;
+    max-width: 90%;
+    border-radius: 12px;
+    background: rgba(245, 245, 245, 0.7);
+    animation: slideDown 0.4s;
 }
 
 .container {
@@ -46,6 +74,26 @@ header {
     max-width: 800px;
     margin: 0 auto;
     width: 100%;
+}
+
+#crop-container {
+    width: min(90vw, 90vh);
+    /* Ensures it fits within viewport width/height */
+    height: min(90vw, 90vh);
+    /* Ensures it remains a square */
+    max-width: 600px;
+    /* Prevents it from getting too large on big screens */
+    max-height: 600px;
+    background: #cfd1dc82;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    touch-action: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 .button-wrapper {
@@ -80,17 +128,6 @@ header {
     font-weight: 500;
 }
 
-#crop-container {
-    width: 100%;
-    aspect-ratio: 1;
-    background: #cfd1dc82;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    touch-action: none;
-}
-
 #photo {
     position: absolute;
     top: 0;
@@ -103,7 +140,7 @@ header {
 
 #photo.loaded {
     opacity: 1;
-    pointer-events: auto;
+    /* pointer-events: auto; */
 }
 
 .button-group {
@@ -146,6 +183,16 @@ header {
     opacity: 0.5;
     cursor: default;
 }
+
+#support-btn {
+    text-decoration: none !important;
+}
+
+.btn:hover,
+.button-wrapper:hover {
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
 
 .grid-overlay {
     position: absolute;
