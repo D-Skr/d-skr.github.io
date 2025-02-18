@@ -143,7 +143,7 @@ cropContainer.addEventListener("touchstart", (e) => {
     isDragging = false; // Ensure dragging is disabled during pinch
     isPinching = true;
     initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
-    //initialScale = scale;
+    initialScale = scale;
     initialRotation = rotation;
     pinchMidpoint = getMidpoint(e.touches[0], e.touches[1]);
 
@@ -159,11 +159,11 @@ cropContainer.addEventListener("touchstart", (e) => {
       x:
         (Math.cos(r) * (fixedPointX - posX) +
           Math.sin(r) * (fixedPointY - posY)) /
-        scale,
+        initialScale,
       y:
         (-Math.sin(r) * (fixedPointX - posX) +
           Math.cos(r) * (fixedPointY - posY)) /
-        scale,
+        initialScale,
     };
     // Store initial angle for rotation calculation
     initialAngle = getAngle(e.touches[0], e.touches[1]);
@@ -177,7 +177,10 @@ cropContainer.addEventListener("touchmove", (e) => {
     const newDistance = getDistance(e.touches[0], e.touches[1]);
     const newAngle = getAngle(e.touches[0], e.touches[1]);
 
-    scale = Math.max(0.5, Math.min(scale * zoomFactor, 5));
+    scale = Math.max(
+      0.2,
+      Math.min(initialScale * (newDistance / initialPinchDistance), 5)
+    );
 
     rotation = initialRotation + (newAngle - initialAngle) * (180 / Math.PI);
 
