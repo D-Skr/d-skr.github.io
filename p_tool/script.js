@@ -78,7 +78,6 @@ fileInput.addEventListener("change", (e) => {
 // Update the CSS transform of the image
 function updateTransform() {
   photo.style.transform = `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${rotation}deg)`;
-  //cropContainer.style.transform = `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${rotation}deg)`;
 }
 
 // ---------------------------
@@ -148,9 +147,6 @@ cropContainer.addEventListener("touchstart", (e) => {
     initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
     initialScale = scale;
     initialRotation = rotation;
-    // initialPosX = posX;
-    // initialPosY = posY;
-    // Calculate pinch midpoint
     pinchMidpoint = getMidpoint(e.touches[0], e.touches[1]);
 
     // Get the fixed point in container coordinates
@@ -183,10 +179,7 @@ cropContainer.addEventListener("touchmove", (e) => {
     const newDistance = getDistance(e.touches[0], e.touches[1]);
     const newAngle = getAngle(e.touches[0], e.touches[1]);
 
-    scale = Math.max(
-      0.5,
-      Math.min(initialScale * (newDistance / initialPinchDistance), 5)
-    );
+    scale = Math.max(0.5, Math.min(initialScale * zoomFactor, 5));
 
     rotation = initialRotation + (newAngle - initialAngle) * (180 / Math.PI);
 
