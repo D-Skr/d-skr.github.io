@@ -7,8 +7,11 @@ const resultCanvas = document.getElementById("result-canvas");
 const ctx = resultCanvas.getContext("2d");
 
 const photoSampleBtn = document.getElementById("photo-sample-btn");
-const modal = document.getElementById("modal");
-const closeModalBtn = document.getElementById("close-modal-btn");
+const modalSample = document.getElementById("modal-sample");
+const closeModalSampleBtn = document.getElementById("close-sample-btn");
+const closeModalInfoBtn = document.getElementById("close-info-btn");
+const modalInfo = document.getElementById("modal-info");
+const infoBtn = document.getElementById("info-btn");
 
 // NEW: Rotate buttons (for desktop)
 const rotateLeftBtn = document.getElementById("rotate-left-btn");
@@ -305,31 +308,39 @@ downloadBtn.addEventListener("click", () => {
 // ---------------------------
 // Modal Popup for Photo Sample
 // ---------------------------
-photoSampleBtn.addEventListener("click", () => {
-  modal.classList.add("active");
-});
 
-closeModalBtn.addEventListener("click", () => {
-  modal.classList.remove("active");
-});
+function setupModal(openButton, modal, closeBtn) {
+  // Open the modal when the openButton is clicked
+  openButton.addEventListener("click", () => {
+    modal.classList.add("active");
+  });
 
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
+  closeBtn.addEventListener("click", () => {
     modal.classList.remove("active");
-  }
-});
+  });
 
+  // Close the modal if the click is on the backdrop (the modal itself)
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+}
 
+setupModal(infoBtn, modalInfo, closeModalInfoBtn);
+setupModal(photoSampleBtn, modalSample, closeModalSampleBtn);
 
 // ---------------------------
-// Toggle Dropdown
+// Toggle Dropdown - not needed anymore
 // ---------------------------
-document.getElementById("dropdown-header").addEventListener("click", function () {
-  const desc = document.getElementById("description");
-  this.classList.toggle("active"); // Toggle arrow direction
-  if (desc.style.display === "none" || desc.style.display === "") {
+document
+  .getElementById("dropdown-header")
+  .addEventListener("click", function () {
+    const desc = document.getElementById("description");
+    this.classList.toggle("active"); // Toggle arrow direction
+    if (desc.style.display === "none" || desc.style.display === "") {
       desc.style.display = "block";
-  } else {
+    } else {
       desc.style.display = "none";
-  }
-});
+    }
+  });
