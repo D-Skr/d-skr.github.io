@@ -10,16 +10,37 @@
 </head>
 
 <body>
-    <header id="dropdown-header">
+    <header id="info-btn" class="btn-secondary">
         Crop <i class="fa-solid fa-camera"></i> Tool
-        <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+        <i class="fa-solid fa-circle-info"></i>
     </header>
 
-    <p id="description">
-        Need a perfect 600x600px image for US gov forms or documents? 📏✂️
-        This free tool helps you crop your photo effortlessly!
-        Just upload, adjust, and save your perfectly sized image 🚀
-    </p>
+    <div class="modal" id="modal-info">
+        <div class="modal-content">
+            <div id="description">
+                <p>Need the perfect <strong>600x600px</strong> image for your official documents?
+                    Whether it’s for your <strong>Driver’s License, ID</strong>, Passport, State ID,
+                    or government forms like <strong>I-765, I-589, DV Lottery, Green Card</strong>,
+                    or Permanent Resident Card, this tool has you covered. And it is FREE!
+                </p>
+                <br>
+                <h3>Just 4 simple steps:</h3>
+                <br>
+
+                <strong>1. Upload <i class="fa-solid fa-image"></i></strong> – Choose your image.<br>
+                <strong>2. Adjust <i class="fa-solid fa-wrench"></i></strong> – Fine-tune to perfection.<br>
+                <strong>3. Save <i class="fas fa-download"></i></strong> – Get a flawless photo ready for
+                submission.<br>
+                <strong>4. Like?</strong> – Support this project.<br>
+                <br>
+                <!-- Need a perfect 600x600px image for US gov forms or documents? 📏✂️<br>
+                This free tool helps you crop your photo effortlessly!
+                Just upload, adjust, and save your perfectly sized image 🚀 -->
+            </div>
+            <button id="close-info-btn" class="close-btn">Close</button>
+        </div>
+    </div>
+
     <div class="container">
         <div id="photo-sample-btn" class="button-wrapper" for="file-input">
             <div class="label">
@@ -42,10 +63,10 @@
                 <div class="grid-line grid-line-horizontal" style="top: 66.66%"></div>
             </div>
         </div>
-        <div class="modal" id="modal">
+        <div class="modal" id="modal-sample">
             <div class="modal-content">
                 <img src="./p_tool/photoSample.png" alt="Sample">
-                <button id="close-modal-btn" class="close-btn">Close</button>
+                <button id="close-sample-btn" class="close-btn">Close</button>
             </div>
         </div>
     </div>
