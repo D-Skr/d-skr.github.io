@@ -89,7 +89,7 @@ header {
     max-height: 600px;
     background: #cfd1dc82;
     border-radius: 16px;
-
+    overflow: hidden;
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     touch-action: none;
