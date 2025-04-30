@@ -109,7 +109,7 @@ function constrainTransform() {
 
 // Update the CSS transform of the image
 function updateTransform() {
-  constrainTransform();
+  // constrainTransform();
   photo.style.transform = `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${rotation}deg)`;
 }
 
@@ -284,18 +284,46 @@ function getAngle(touch1, touch2) {
 // ---------------------------
 // Rotate Buttons (Desktop)
 // ---------------------------
-if (rotateLeftBtn) {
-  rotateLeftBtn.addEventListener("click", () => {
-    rotation -= 90;
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    const rect = cropContainer.getBoundingClientRect();
+    const containerCenter = {
+      x: rect.width / 2,
+      y: rect.height / 2,
+    };
+
+    // Convert container center to image coordinates before rotation
+    const radBefore = (rotation * Math.PI) / 180;
+    const sinBefore = Math.sin(radBefore);
+    const cosBefore = Math.cos(radBefore);
+
+    const centerImageX =
+      (cosBefore * (containerCenter.x - posX) +
+        sinBefore * (containerCenter.y - posY)) /
+      scale;
+    const centerImageY =
+      (-sinBefore * (containerCenter.x - posX) +
+        cosBefore * (containerCenter.y - posY)) /
+      scale;
+
+    // Adjust rotation angle
+    rotation += e.key === "ArrowLeft" ? -2 : 2;
+
+    // Convert image coordinates back to container coordinates after rotation
+    const radAfter = (rotation * Math.PI) / 180;
+    const sinAfter = Math.sin(radAfter);
+    const cosAfter = Math.cos(radAfter);
+
+    posX =
+      containerCenter.x -
+      scale * (cosAfter * centerImageX - sinAfter * centerImageY);
+    posY =
+      containerCenter.y -
+      scale * (sinAfter * centerImageX + cosAfter * centerImageY);
+
     updateTransform();
-  });
-}
-if (rotateRightBtn) {
-  rotateRightBtn.addEventListener("click", () => {
-    rotation += 90;
-    updateTransform();
-  });
-}
+  }
+});
 
 // ---------------------------
 // Cropping & Download
