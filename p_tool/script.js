@@ -75,8 +75,41 @@ fileInput.addEventListener("change", (e) => {
   };
 });
 
+// Helper function to keep the image within boundaries
+function constrainTransform() {
+  const containerWidth = cropContainer.clientWidth;
+  const containerHeight = cropContainer.clientHeight;
+  const rad = (rotation * Math.PI) / 180;
+
+  // Compute the rotated dimensions
+  const imgWidth = photo.naturalWidth * scale;
+  const imgHeight = photo.naturalHeight * scale;
+  const sinRad = Math.abs(Math.sin(rad));
+  const cosRad = Math.abs(Math.cos(rad));
+  const rotatedWidth = imgWidth * cosRad + imgHeight * sinRad;
+  const rotatedHeight = imgWidth * sinRad + imgHeight * cosRad;
+
+  // Constraints
+  const minX = containerWidth - rotatedWidth;
+  const minY = containerHeight - rotatedHeight;
+
+  // If image smaller than container, center it
+  if (rotatedWidth < containerWidth) {
+    posX = (containerWidth - rotatedWidth) / 2;
+  } else {
+    posX = Math.min(0, Math.max(posX, minX));
+  }
+
+  if (rotatedHeight < containerHeight) {
+    posY = (containerHeight - rotatedHeight) / 2;
+  } else {
+    posY = Math.min(0, Math.max(posY, minY));
+  }
+}
+
 // Update the CSS transform of the image
 function updateTransform() {
+  constrainTransform();
   photo.style.transform = `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${rotation}deg)`;
 }
 
