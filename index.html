@@ -1,286 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dmitrii Skriabin</title>
-    <link rel="stylesheet" type="text/css" media="all" href="main.css">
-    <link rel="stylesheet" type="text/css" media="all" href="responsive.css">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dmitrii Skriabin - Software Engineer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151933;
+            --bg-tertiary: #1e2442;
+            --accent-primary: #00d4ff;
+            --accent-secondary: #7b68ee;
+            --accent-success: #00ff88;
+            --accent-warning: #ffaa00;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #27272a;
+            --code-bg: #1a1d2e;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Video Background */
+        #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            filter: opacity(8%);
+            z-index: -1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .logo::before {
+            content: '> ';
+            color: var(--accent-success);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .typing-text {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-success);
+            font-size: 1.2rem;
+            min-height: 1.5em;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: var(--accent-primary);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .contact-links {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .contact-links a:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Terminal Section */
+        .terminal {
+            background: var(--code-bg);
+            border-radius: 8px;
+            margin: 3rem 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .terminal-header {
+            background: var(--bg-secondary);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .btn-close { background: #ff5f56; }
+        .btn-minimize { background: #ffbd2e; }
+        .btn-maximize { background: #27c93f; }
+
+        .terminal-title {
+            margin-left: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .terminal-body {
+            padding: 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .terminal-line {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-success);
+            margin-right: 0.5rem;
+        }
+
+        .terminal-command {
+            color: var(--accent-primary);
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            margin-left: 0.5rem;
+        }
+
+        .terminal-comment {
+            color: var(--text-muted);
+        }
+
+        /* Section Styles */
+        section {
+            margin: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-primary);
+        }
+
+        .section-header::before {
+            content: '//';
+            color: var(--accent-secondary);
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-color), transparent);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+        }
+
+        .skill-category h3 {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Experience Timeline */
+        .experience-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 0 3px var(--bg-secondary);
+        }
+
+        .experience-header {
+            margin-bottom: 1rem;
+        }
+
+        .experience-title {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-company {
+            color: var(--accent-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .experience-period {
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .experience-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-top: 1rem;
+        }
+
+        .experience-description ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-description li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-description li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-success);
+        }
+
+        .experience-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Code Showcase */
+        .code-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .code-card {
+            background: var(--code-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .code-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+        }
+
+        .code-header {
+            background: var(--bg-secondary);
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-lang {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .code-content {
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-content pre {
+            margin: 0;
+        }
+
+        .keyword { color: #c678dd; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .comment { color: var(--text-muted); }
+        .number { color: #d19a66; }
+        .class-name { color: #e5c07b; }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .experience-timeline {
+                padding-left: 1rem;
+            }
+
+            .experience-item {
+                padding-left: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 5rem 1rem 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
 <body>
     <video autoplay muted loop id="myVideo">
         <source src="digital_grid.mp4" type="video/mp4">
-      </video>
-    <div id="page">
-        <div class="topnav">
-            <a class="active_tab"  href="index.html">My Resume</a>
-            <a href="./mustang/mustang.html">Ford Mustang</a>
-            <a href="treasure.html">Game</a>
-            <a href="http://ec2-3-133-118-215.us-east-2.compute.amazonaws.com/">EQUALIZER</a>
-            <a href="./eq">EQ</a>
-            <a href="./p_tool">Crop 📷 Tool</a>
-<!--             <a href="comments.html">Comments</a>
-            <a href="about.html">About</a> -->
-          </div> 
-        <div id="main">
-            <div id="full_size">
-                <div id="profile_header">
-                    <div id="profile_user">
-                        <div id="profile_photo"><img src="photo.jpg" alt="Dmitrii's Photo"></div>
-                        <div id="profile_name">
-                            <h1 id="profile_title">Dmitrii Skriabin</h1>
-                            <h4 id="profile_position">Java Full Stack Developer</h4>
-                        </div>
-                    </div>
-                    <div id="profile_data">
-                        <div class="profile_row name" style="display: block;"> <span class="th">Name:</span><span
-                                class="td">Dmitrii Skriabin</span> </div>
-                        <div class="profile_row phone" style="display: block;"> <span class="th">Phone:</span><span
-                                class="td">+1-234-56-7890</span> </div>
-                        <div class="profile_row email" style="display: block;"> <span class="th">Email:</span><span
-                                class="td"><a href=mailto:d.skriabin@protonmail.com>d.skriabin@protonmail.com</a></span> </div>
-                        <div class="profile_row linkedin" style="display: block;"> <span
-                                class="th">LinkedIn:</span><span class="td"><a target="_blank"
-                                    href="https://www.linkedin.com/in/it-in-us">it-in-us</a></span>
-                        </div>
-                        <div class="profile_row github" style="display: block;"> <span class="th">GitHub:</span><span
-                                class="td"><a target="_blank" href="https://github.com/D-Skr">D-Skr</a></span> </div>
-                    </div>
+    </video>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">dmitrii.dev</div>
+            <ul class="nav-links">
+                <li><a href="#about">about()</a></li>
+                <li><a href="#experience">experience()</a></li>
+                <li><a href="#skills">skills()</a></li>
+                <li><a href="#projects">projects()</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero" id="about">
+            <div class="hero-content">
+                <h1>Dmitrii Skriabin</h1>
+                <p class="subtitle">Software Engineer | Oracle Certified Java Programmer</p>
+                <div class="typing-text">
+                    <span id="typed-text"></span><span class="cursor"></span>
+                </div>
+                <div class="contact-links">
+                    <a href="tel:+19299009703">📞 +1 (929) 900-9703</a>
+                    <a href="mailto:d.skriabin@proton.me">📧 d.skriabin@proton.me</a>
+                    <a href="https://github.com/D-Skr" target="_blank">🔗 GitHub</a>
+                    <a href="https://www.linkedin.com/in/it-in-us" target="_blank">💼 LinkedIn</a>
                 </div>
             </div>
-            <div class="section_body profile_section_body" style="display: block;">
-                <p id="Summary">Skilled IT professional with 3 years in software development and 15+ years of IT 
-                    experiencee in diverse settings, including IBM, IDEXX Labs and IPSOFT. 
-                    I am adept at troubleshooting and customer support. My passion is helping people to resolve 
-                    their technical issues, save money and time. 
-                    I like to learn new and get new challenges that is why I started to code 3 years ago.
-                    MA in Radio Engineering and numerous certifications. Bi-lingual (English, Russian).  Proficient Google researcher.
-                </p>     
+        </section>
+
+        <!-- Terminal Introduction -->
+        <div class="terminal">
+            <div class="terminal-header">
+                <span class="terminal-button btn-close"></span>
+                <span class="terminal-button btn-minimize"></span>
+                <span class="terminal-button btn-maximize"></span>
+                <span class="terminal-title">dmitrii@engineer:~</span>
             </div>
-            <div id="mainpage_area">
-                <div class="section_body">
-                    <div class="sidebar">
-                        <aside class="widget widget_skills">
-                            <h3 class="widget_title">Key skills</h3>
-                            <div class="widget_inner">
-                                <div class="skills_row"><span class="caption">Java</span><span class="progressbar"><span
-                                            data-process="85%" class="progress blue"
-                                            style="width: 85%; background-color:#327EA3; "><span
-                                                class="value">85%</span></span></span></div>
-                                <div class="skills_row"><span class="caption">JavaScript</span><span
-                                        class="progressbar"><span data-process="80%" class="progress aqua"
-                                            style="width: 80%; background-color: #4CA5D0;"><span
-                                                class="value">80%</span></span></span></div>
-                                <div class="skills_row"><span class="caption">TypeScript</span><span class="progressbar"><span
-                                            data-process="75%" class="progress orange"
-                                            style="width: 75%;background-color: #FF6013;"><span
-                                                class="value">75%</span></span></span></div>
-                                <div class="skills_row"><span class="caption">Python</span><span
-                                        class="progressbar"><span data-process="80%" class="progress purple"
-                                            style="width: 80%; background-color: #805BCC;"><span
-                                                class="value">80%</span></span></span></div>
-                                <div class="skills_row"><span class="caption">Cypress.io</span><span
-                                        class="progressbar"><span data-process="90%" class="progress green"
-                                            style="width: 90%; background-color: #6CA338"><span
-                                                class="value">90%</span></span></span></div>
-                                <div class="skills_row"><span class="caption">QA</span><span
-                                        class="progressbar"><span data-process="90%" class="progress yellow"
-                                            style="width: 90%;background-color: #FFBC38;"><span
-                                                class="value">90%</span></span></span></div>
-                                <div class="skills_row"><span class="caption">SQL</span><span class="progressbar"><span
-                                            data-process="75%" class="progress red"
-                                            style="width: 75%;background-color: #E82C0C;"><span
-                                                class="value">75%</span></span></span></div>
-                            </div>
-                        </aside>
-                        <aside class="widget">
-                            <h3 class="widget_title">Language skills</h3>
-                            <div>
-                                <p>English</p>
-                                <p>Russian</p>
-                            </div>
-                        </aside>
-                    </div>
-                    <div class="wrapper">
-                        <div id="employment">
-                            <div class="category_header">
-                                <h3 class="category_title">Employment</h3>
-                            </div>
-                            <div class="category_body">
-                                <article id="post_1">
-                                    <div class="post_header">
-                                        <span class="period">2021-present</span>
-                                        <h4 class="post_title"></span><a
-                                            href="https://www.speedtest.net/" target=_blank>CANOE Software</a></h4>
-                                        <h5 class="post_subtitle">QA Automation Engineer</h5>
-                                    </div>
-                                    <div class="post_body">
-                                        <ul>
-                                            <li>Develop, maintain, and execute test plans for web-based applications</li>
-                                            <li>Write automated Quality Assurance/Software testing on Cypress.io, Postman</li>
-                                            <li>Monitor, manage, and report problems and bugs found in web-based applications</li>
-                                            <li>Work with software engineers to resolve issues in a timely manner and assist in
-                                            compiling processes to automate testing</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article id="post_2">
-                                    <div class="post_header">
-                                        <span class="period">2019 - 2020</span>
-                                        <h4 class="post_title"></span><a
-                                            href="https://www.ipsoft.com/" target=_blank>IPSOFT Inc.</a></h4>
-                                        <h5 class="post_subtitle">Service Desk Engineer</h5>
-                                    </div>
-                                    <div class="post_body">
-                                        <ul>
-                                            <li>Provided worldwide support for end users inside <strong>IPsoft</strong> (1,400 users) and clients: <strong>BlackRock</strong> (16,200 users),
-                                                <strong>Carestream</strong> (4,500 users), <strong>MSIG</strong> Mitsui Sumitomo Insurance (300 users), <strong>WWE</strong> (800 users).</li>
-                                            <li>Supported and troubleshooted JAVA applications</li>
-                                            <li>Resolved issues remotely via phone calls, email, incoming tickets and onsite support within SLA: ~40
-                                                inbound calls during the shift with avarage time for troubleshooting 3 - 7 min.</li>
-                                            <li>Resolved break/fix, new build outs and escalation of level 2 calls,
-                                                Active Directory administration,
-                                                SAP support, VMWare support, mobile phone/tablet support, proprietary
-                                                software support</li>
-                                            <li>Supported VPN connectivity and utilize remote tools to facilitate
-                                                efficient resolution of issues</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article id="post_3">
-                                    <div class="post_header">
-                                        <span class="period">2015 - 2018</span>
-                                        <h4 class="post_title"></span><a
-                                            href="https://www.idexx.com/en/" target=_blank>IDEXX Laboratories
-                                            LLC</a></h4>
-                                        <h5 class="post_subtitle">Customer Support Consultant II</h5>
-                                    </div>
-                                    <div class="post_body">
-                                        <ul>
-                                            <li>Supported clients related to in-house diagnostic instruments and
-                                                services</li>
-                                            <li>Performed troubleshooting on instruments installed various locations,
-                                                solving computer networking issues and other questions</li>
-                                            <li>Provided support for clients regarding their consumable orders and
-                                                resolved billing questions</li>
-                                            <li>Handled shipping inquiries and complaints</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article id="post_4">
-                                    <div class="post_header">
-                                        <span class="period">2009 - 2015</span>
-                                        <h4 class="post_title"></span><a
-                                                href="https://www.ibm.com/" target=_blank>IBM</a></h4>
-                                        <h5 class="post_subtitle">Team Leader On-Site Support (OSS) Engineers:2nd level
-                                        </h5>
-                                    </div>
-                                    <div class="post_body">
-                                        <ul>
-                                            <li>Provided end user support for Michelin Tire Factory (1000 users),
-                                                IT-infrastructure service,
-                                                cooperated with local 4 engineers and global teams (India, Czech
-                                                Republic, France, Poland, Germany)</li>
-                                            <li>Migrated from Novell to Active Directory, testing business applications
-                                                for compatibility with new OS and transitioning to Windows 7</li>
-                                            <li>Installed Cisco VoIP equipment which included phone system configuration
-                                                and installation of new software</li>
-                                            <li>Configured Cisco switches and installation replacing old Nortel
-                                                equipment on Michelin factory</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
-                        <div id="education">
-                            <div class="category_header">
-                                <h3 class="category_title">Education</h3>
-                            </div>
-                                                        <article class="post">
-                                <div class="post_header">
-                                    <span class="period">2021</span>
-                                    <h4 class="post_title"><a href="https://perscholas.org/" target=_blank>Per Scholas</a></h4>
-                                    <h5 class="post_subtitle">React Developer</h5>
-                                </div>
-                                <ul>
-                                    <li>React</li>
-                                    <li>TypeScript</li>
-                                    <li>Node.js</li>
-                                    <li>JavaScript</li>
-                                    <li>Express</li>
-                                    <li>Redux</li>
-                                    <li>CI/CD</li>
-                                    <li>Web App Security</li>
-                                </ul>
-                            </article>
-                              <article class="post">
-                                <div class="post_header">
-                                    <span class="period">2021</span>
-                                    <h4 class="post_title"><a href="https://www.cooper.edu/" target=_blank>Cooper Union
-                                            School of Engineering, NY</a></h4>
-                                </div>
-                                <ul>
-                                    <li>Python</li>
-                                    <li>Data Architecture Principles, Data Structure and SQL</li>
-                                </ul>
-                            </article>
-                            <article class="post">
-                                <div class="post_header">
-                                    <span class="period">2020-2021</span>
-                                    <h4 class="post_title"><a href="https://perscholas.org/" target=_blank>Per Scholas</a></h4>
-                                    <h5 class="post_subtitle">Full Stack Java Development: 800+ hours of professional training</h5>
-                                </div>
-                                <ul>
-                                    <li>JAVA</li>
-                                    <li>JAVA EE (J2EE)</li>
-                                    <li>JavaScript</li>
-                                    <li>QA Automation</li>
-                                    <li>Cypress.io</li>
-                                    <li>HTML/CSS</li>
-                                    <li>SQL</li>
-                                    <li>MySQL</li>
-                                    <li>MariaDB</li>
-                                    <li>CI/CD, Jenkins</li>
-                                    <li>Agile (Scrum & Kanban)</li>
-                                    <li>AWS</li>
-                                    <li>JIRA</li>
-                                    <li>Git</li>
-                                    <li>JUnit</li>
-                                    <li>Spring Framework</li>
-                                    <li>Maven</li>
-                                    <li>Microservices</li>
-                                    <li>API</li>
-                                    <li>Postman</li>
-                                </ul>
-                            </article>
-                            <article class="post">
-                                <div class="post_header">
-                                    <span class="period">2019</span>
-                                    <h4 class="post_title"><a href="https://www.cooper.edu/" target=_blank>Cooper Union
-                                            School of Engineering, NY</a></h4>
-                                </div>
-                                <ul>
-                                    <li>Cyber Security</li>
-                                    <li>Linux (Unix) Administration</li>
-                                    <li>Java Programming</li>
-                                    <li>C# Programming</li>
-                                    <li>Android Software Development</li>
-                                </ul>
-                            </article>
-                            <article class="post">
-                                <div class="post_header">
-                                    <span class="period">2008 - 2014</span>
-                                    <h4 class="post_title"><a href="http://rsreu.ru/en/" target=_blank>RSREU State
-                                        Engineering University, Russia</a></h4>
-                                    <h5 class="post_subtitle">MA in Computer Sciense</h5>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
+            <div class="terminal-body">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command">whoami</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Versatile Software Engineer with robust background in Java and web development.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Strong problem-solving and debugging skills. Proficient in Agile methodologies.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command">ls skills/</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Java JavaScript Python NodeJS SQL NoSQL C# AWS Docker K8s</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command">cat expertise.txt</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Designing, programming, and integrating software components for web applications.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Experience with Spring Framework, Django, CI/CD, TDD, and containerization.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command">echo $LOCATION</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">New York, NY 🗽</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-cursor">_</span>
                 </div>
             </div>
         </div>
-    </div>
-</body>
 
+        <!-- Experience Section -->
+        <section id="experience">
+            <div class="section-header">
+                <h2>Experience</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="experience-timeline">
+                <!-- Meta -->
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3 class="experience-title">Software Engineer</h3>
+                        <div class="experience-company">Meta (via HCL)</div>
+                        <div class="experience-period">02/2024 - Present | New York, NY</div>
+                    </div>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Develop internal tools that improve engineers' velocity, written in JavaScript, Python, Java, and PHP</li>
+                            <li>Maintain and debug CI/CD issues, participate in code reviews, and resolve merge conflicts</li>
+                            <li>Collaborate with cross-functional teams to provide support and troubleshooting for Android test environments on local devices and emulators</li>
+                        </ul>
+                    </div>
+                    <div class="experience-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">CI/CD</span>
+                        <span class="tech-tag">Android</span>
+                        <span class="tech-tag">Code Reviews</span>
+                    </div>
+                </div>
+
+                <!-- Capgemini -->
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3 class="experience-title">Software Developer</h3>
+                        <div class="experience-company">Capgemini</div>
+                        <div class="experience-period">02/2023 - 08/2023 | New York, NY</div>
+                    </div>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Designed and developed a scalable and efficient Java-based application, resulting in a 30% increase in system performance</li>
+                            <li>Utilized Spring Boot, Spring Batch, Azure, AKS, K8s, MySQL, MyBatis for enterprise-grade solutions</li>
+                            <li>Provided mentorship to junior developers, fostering a collaborative and productive team environment</li>
+                            <li>Debugged and tested programs using Unit and Integration testing with JUnit5, Mockito, Spring Boot Test, H2DB</li>
+                            <li>Collaborated with business users to develop technical and business specifications using Jira, Teams, ServiceNow</li>
+                        </ul>
+                    </div>
+                    <div class="experience-tags">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">Spring Batch</span>
+                        <span class="tech-tag">Azure</span>
+                        <span class="tech-tag">K8s</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">JUnit5</span>
+                        <span class="tech-tag">Mockito</span>
+                        <span class="tech-tag">CI/CD</span>
+                    </div>
+                </div>
+
+                <!-- Canoe -->
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3 class="experience-title">Software Developer in Test</h3>
+                        <div class="experience-company">Canoe</div>
+                        <div class="experience-period">04/2021 - 05/2022 | New York, NY</div>
+                    </div>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Developed, maintained, and executed test plans for web-based applications using JavaScript, AWS, PHP, SQL, Vue, NodeJS</li>
+                            <li>Created automated tests for Quality Assurance (QA) and Software Testing on Cypress, Postman for API</li>
+                            <li>Contributed to the development of several products E2E, from identifying system requirements to software implementation, testing, and configuring metrics, alarms, monitors, and dashboards using Jira, Grafana</li>
+                        </ul>
+                    </div>
+                    <div class="experience-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Cypress</span>
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">Vue</span>
+                        <span class="tech-tag">NodeJS</span>
+                        <span class="tech-tag">Postman</span>
+                        <span class="tech-tag">Grafana</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <div class="section-header">
+                <h2>Skills</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Frameworks & Libraries</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Spring Framework</span>
+                        <span class="skill-tag">Django</span>
+                        <span class="skill-tag">NodeJS</span>
+                        <span class="skill-tag">Cypress</span>
+                        <span class="skill-tag">JUnit</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Cloud & DevOps</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Azure</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">K8s</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">Jenkins</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Tools & Methodologies</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Jira</span>
+                        <span class="skill-tag">Agile/Scrum</span>
+                        <span class="skill-tag">TDD</span>
+                        <span class="skill-tag">Postman</span>
+                        <span class="skill-tag">Maven</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Databases</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">NoSQL</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>IDEs & Editors</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">IntelliJ IDEA</span>
+                        <span class="skill-tag">VSCode</span>
+                        <span class="skill-tag">Eclipse</span>
+                        <span class="skill-tag">PyCharm</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Showcase Section -->
+        <section>
+            <div class="section-header">
+                <h2>Code Samples</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="code-showcase">
+                <!-- Java -->
+                <div class="code-card">
+                    <div class="code-header">
+                        <span class="code-lang">Java</span>
+                    </div>
+                    <div class="code-content">
+<pre><span class="keyword">public class</span> <span class="class-name">Engineer</span> {
+    <span class="keyword">private</span> String name;
+
+    <span class="keyword">public</span> <span class="function">Engineer</span>(String name) {
+        <span class="keyword">this</span>.name = name;
+    }
+
+    <span class="keyword">public void</span> <span class="function">develop</span>() {
+        System.out.<span class="function">println</span>(
+            <span class="string">"Building solutions..."</span>
+        );
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Python -->
+                <div class="code-card">
+                    <div class="code-header">
+                        <span class="code-lang">Python</span>
+                    </div>
+                    <div class="code-content">
+<pre><span class="keyword">class</span> <span class="class-name">DataProcessor</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, data):
+        self.data = data
+
+    <span class="keyword">def</span> <span class="function">process</span>(self):
+        <span class="keyword">return</span> [
+            x <span class="keyword">for</span> x <span class="keyword">in</span> self.data
+            <span class="keyword">if</span> x > <span class="number">0</span>
+        ]</pre>
+                    </div>
+                </div>
+
+                <!-- JavaScript -->
+                <div class="code-card">
+                    <div class="code-header">
+                        <span class="code-lang">JavaScript</span>
+                    </div>
+                    <div class="code-content">
+<pre><span class="keyword">const</span> <span class="function">fetchData</span> = <span class="keyword">async</span> (url) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> response =
+            <span class="keyword">await</span> <span class="function">fetch</span>(url);
+        <span class="keyword">return await</span> response.<span class="function">json</span>();
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(error);
+    }
+};</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <div class="section-header">
+                <h2>Projects & Tools</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">🎵 EQUALIZER</h3>
+                    <p class="project-description">Interactive audio equalizer with visual representation and real-time adjustments.</p>
+                    <a href="./eq" class="project-link">View Project →</a>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">📷 Crop Tool</h3>
+                    <p class="project-description">Image cropping tool with rotation capabilities and intuitive controls.</p>
+                    <a href="./p_tool" class="project-link">View Project →</a>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">🎮 Treasure Game</h3>
+                    <p class="project-description">Interactive treasure hunting game built with JavaScript.</p>
+                    <a href="treasure.html" class="project-link">Play Game →</a>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">🚗 Ford Mustang</h3>
+                    <p class="project-description">Interactive showcase of the Ford Mustang with detailed specifications.</p>
+                    <a href="./mustang/mustang.html" class="project-link">View Project →</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Dmitrii Skriabin | Built with passion for code</p>
+        <p>// New York, NY</p>
+    </footer>
+
+    <script>
+        // Typing Animation
+        const phrases = [
+            "Building scalable solutions...",
+            "Debugging complex systems...",
+            "Writing clean code...",
+            "Automating workflows...",
+            "Solving real-world problems..."
+        ];
+
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typedTextElement = document.getElementById('typed-text');
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+
+            if (isDeleting) {
+                typedTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+
+            const typingSpeed = isDeleting ? 50 : 100;
+            setTimeout(type, typingSpeed);
+        }
+
+        // Start typing animation
+        setTimeout(type, 1000);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll-based animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all major sections
+        document.querySelectorAll('section, .terminal, .experience-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
 </html>
