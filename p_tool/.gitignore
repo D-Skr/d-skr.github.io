@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Capacitor
+android/
+ios/
+www/
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
+build/
+dist/
+
+# Signing keys (NEVER commit these!)
+*.keystore
+*.jks
+key.properties
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.directory
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/

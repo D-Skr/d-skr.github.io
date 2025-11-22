@@ -1,0 +1,17 @@
+{
+  "appId": "com.dskr.phototool",
+  "appName": "Photo Crop Tool",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "buildOptions": {
+      "keystorePath": "release-key.keystore",
+      "keystorePassword": "YOUR_KEYSTORE_PASSWORD",
+      "keystoreAlias": "photo-crop-key",
+      "keystoreAliasPassword": "YOUR_KEY_PASSWORD",
+      "releaseType": "APK"
+    }
+  }
+}

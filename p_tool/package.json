@@ -1,0 +1,27 @@
+{
+  "name": "photo-crop-tool",
+  "version": "1.0.0",
+  "description": "Photo cropping tool for official documents (600x600px)",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'No build step needed - static HTML'",
+    "android": "npx cap open android",
+    "sync": "npx cap sync",
+    "copy": "npx cap copy android",
+    "update": "npx cap update android"
+  },
+  "keywords": [
+    "photo",
+    "crop",
+    "document",
+    "passport",
+    "id"
+  ],
+  "author": "D-Skr",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/cli": "^6.0.0"
+  }
+}

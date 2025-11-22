@@ -13,10 +13,6 @@ const closeModalInfoBtn = document.getElementById("close-info-btn");
 const modalInfo = document.getElementById("modal-info");
 const infoBtn = document.getElementById("info-btn");
 
-// NEW: Rotate buttons (for desktop)
-const rotateLeftBtn = document.getElementById("rotate-left-btn");
-const rotateRightBtn = document.getElementById("rotate-right-btn");
-
 // Transformation variables for positioning, scaling, and rotation
 let scale = 1;
 let posX = 0;
@@ -109,7 +105,7 @@ function constrainTransform() {
 
 // Update the CSS transform of the image
 function updateTransform() {
-  // constrainTransform();
+  constrainTransform();
   photo.style.transform = `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${rotation}deg)`;
 }
 
@@ -390,18 +386,3 @@ function setupModal(openButton, modal, closeBtn) {
 
 setupModal(infoBtn, modalInfo, closeModalInfoBtn);
 setupModal(photoSampleBtn, modalSample, closeModalSampleBtn);
-
-// ---------------------------
-// Toggle Dropdown - not needed anymore
-// ---------------------------
-document
-  .getElementById("dropdown-header")
-  .addEventListener("click", function () {
-    const desc = document.getElementById("description");
-    this.classList.toggle("active"); // Toggle arrow direction
-    if (desc.style.display === "none" || desc.style.display === "") {
-      desc.style.display = "block";
-    } else {
-      desc.style.display = "none";
-    }
-  });
